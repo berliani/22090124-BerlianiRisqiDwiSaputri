@@ -5,12 +5,19 @@
 package My_Form;
 
 import My_Class.connect;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import jdk.jfr.Timestamp;
 
 /**
  *
@@ -34,21 +41,26 @@ public class AnggotaForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel4 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jButton_Submit = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField_Nama = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField_ID = new javax.swing.JTextField();
+        cari = new javax.swing.JButton();
+        tfID = new javax.swing.JTextField();
+        id = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton_Submit.setText("Submit");
         jButton_Submit.addActionListener(new java.awt.event.ActionListener() {
@@ -56,13 +68,16 @@ public class AnggotaForm extends javax.swing.JFrame {
                 jButton_SubmitActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton_Submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 500, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/My_Images/librarylogin1.png"))); // NOI18N
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Cambria", 1, 36)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Selamat Datang");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, -1, -1));
 
         jButton1.setText("Non Anggota");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -70,169 +85,214 @@ public class AnggotaForm extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, -1));
 
-        jButton2.setText("Anggota");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        cari.setText("Cari Buku");
+        cari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                cariActionPerformed(evt);
             }
         });
+        jPanel1.add(cari, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 380, -1, -1));
 
-        jTextField_Nama.addActionListener(new java.awt.event.ActionListener() {
+        tfID.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        tfID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_NamaActionPerformed(evt);
+                tfIDActionPerformed(evt);
             }
         });
+        jPanel1.add(tfID, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, 240, 30));
 
-        jLabel3.setText("Nama :");
+        id.setText("ID Anggota :");
+        jPanel1.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, -1));
 
-        jLabel4.setText("No. Anggota  :");
-
-        jTextField_ID.addActionListener(new java.awt.event.ActionListener() {
+        jButton3.setBackground(new java.awt.Color(0, 153, 153));
+        jButton3.setForeground(new java.awt.Color(0, 153, 153));
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/My_Images/icons8-user-male-20.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField_IDActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(206, 206, 206)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(224, 224, 224)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jButton_Submit))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGap(23, 23, 23)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jTextField_Nama, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jButton1)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButton2))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jTextField_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(126, 252, Short.MAX_VALUE))
+        jButton4.setText("Anggota");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, -1, -1));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 439, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 6, Short.MAX_VALUE)))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField_Nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField_ID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jButton_Submit)
-                .addContainerGap(182, Short.MAX_VALUE))
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 560, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        getContentPane().add(jPanel4, java.awt.BorderLayout.LINE_START);
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "No", "Nama", "ID Anggota", "Riwayat Masuk"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
         );
+
+        getContentPane().add(jPanel5, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButton_SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SubmitActionPerformed
 
-    private void jTextField_NamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_NamaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_NamaActionPerformed
+    }//GEN-LAST:event_jButton_SubmitActionPerformed
 
-    private void jTextField_IDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_IDActionPerformed
+    private void tfIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField_IDActionPerformed
+ String id = tfID.getText();
+try {
+    String q = "SELECT * FROM dataanggota WHERE IDAnggota=" + id;
+    Connection k = connect.getConnection();
+    Statement s = k.createStatement();
+    ResultSet R = s.executeQuery(q);
+
+    if (R.next()) {
+        String nama = R.getString("Nama");
+
+        updateDB(id);
+        addDataToTable(nama, id);
+        
+        JOptionPane.showMessageDialog(null, "Selamat Datang", "Berhasil Masuk", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+        JOptionPane.showMessageDialog(null, "ID yang anda masukan tidak valid", "Data Tidak Ditemukan", JOptionPane.WARNING_MESSAGE);
+    }
+
+    tfID.setText("");
+    tfID.requestFocus();
+    
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+
+    }//GEN-LAST:event_tfIDActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        LoginForm LoginFormFrame = new LoginForm();
-        LoginFormFrame.setVisible(true);
-        LoginFormFrame.setLocationRelativeTo(null);
+        NonAnggotaForm NonAnggotaFormFrame = new NonAnggotaForm();
+        NonAnggotaFormFrame.setVisible(true);
+        NonAnggotaFormFrame.setLocationRelativeTo(null);
         this.dispose();
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton_SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SubmitActionPerformed
-        
-       // get nama and ID anggota
-       String Nama = jTextField_Nama.getText();
-       String ID =  jTextField_ID.getText();
-       
-       ResultSet rs;
-       PreparedStatement ps;
-       
-       String query = "SELECT * FROM `data anggota` WHERE `Nama` = ? AND `ID` = ?";
-       
-       // check if the fields are empty
-       if(Nama.trim().equals(" ")|| ID.trim().equals(" ")){
-           JOptionPane.showMessageDialog(null, "Masukkan Nama dan ID Anggota Anda", "Inputan Kosong", 2);
-       }
-       else{ 
-           try{
-            // get the connection from class connect
-             ps = connect.getConnection().prepareStatement(query);
-             
-             ps.setString(1, Nama);
-             ps.setString(2, ID);
-             
-             rs = ps.executeQuery();
-             
-             
-             
-           } catch (SQLException ex) {
-               Logger.getLogger(AnggotaForm.class.getName()).log(Level.SEVERE, null, ex);
-           }
-       
-       }
-    }//GEN-LAST:event_jButton_SubmitActionPerformed
+    private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
+        // TODO add your handling code here:
+         CariBuku CariBukuFormFrame = new CariBuku();
+        CariBukuFormFrame.setVisible(true);
+        CariBukuFormFrame.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_cariActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        DataAnggota a = new DataAnggota();
+        a.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        AnggotaForm AnggotaFormFrame = new AnggotaForm();
+        AnggotaFormFrame.setVisible(true);
+        AnggotaFormFrame.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
      */
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cari;
+    private javax.swing.JLabel id;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton_Submit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField_ID;
-    private javax.swing.JTextField jTextField_Nama;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField tfID;
     // End of variables declaration//GEN-END:variables
+
+   private void updateDB(String id) {
+        try {
+            Connection c = connect.getConnection();
+            Statement s = c.createStatement();
+            String q = "UPDATE dataanggota "
+                    + "SET "
+                    + "tanggal_masuk=NOW() "
+                    + "WHERE id="+id;
+            s.executeUpdate(q);
+        } catch (Exception e) {
+        }
+    }
+
+    private void addDataToTable(String nama, String id_anggota) {
+        try {
+            DefaultTableModel m = (DefaultTableModel) jTable1.getModel();
+            int row = jTable1.getRowCount()+1;
+            
+            Date currentDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String tanggal_masuk = dateFormat.format(currentDate);
+
+        Object[] dataAnggota = { row, nama, id_anggota, tanggal_masuk };
+        m.addRow(dataAnggota);
+        
+         } catch (Exception e) {
+             
+         
+        e.printStackTrace();
+//            Object[] dataAnggota = {row,nama,id_anggota,tanggal_masuk};
+//            m.addRow(dataAnggota); 
+//        } catch (Exception e) {
+//        }
+//    
+//    }
+}
+    }
 }

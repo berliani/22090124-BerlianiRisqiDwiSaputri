@@ -11,7 +11,7 @@ package My_Form;
 class imgIco {
     
     public static void main(String[] args){
-        LoginForm LoginFormFrame = new LoginForm();
+        NonAnggotaForm LoginFormFrame = new NonAnggotaForm();
         LoginFormFrame.setVisible(true);
         LoginFormFrame.setLocationRelativeTo(null);
          

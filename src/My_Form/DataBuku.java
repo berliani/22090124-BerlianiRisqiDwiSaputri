@@ -4,17 +4,34 @@
  */
 package My_Form;
 
+import My_Class.connect;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
- * @author linad
+ * @author Berliani Risqi
  */
 public class DataBuku extends javax.swing.JFrame {
 
     /**
-     * Creates new form DataMember
+     * Creates new form DataBuku
      */
     public DataBuku() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        refreshtable();
     }
 
     /**
@@ -27,34 +44,38 @@ public class DataBuku extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        tablebuku = new javax.swing.JTable();
+        judulbuku = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        idbuku = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        penulis = new javax.swing.JTextField();
+        edit = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1020, 549));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel2.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel4.setBackground(new java.awt.Color(0, 102, 102));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/My_Images/libraryloginkicit.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Cambria", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Perpustakaan Umum");
+        jLabel2.setText("PerpustakaanKu");
 
         jButton1.setText("Data Anggota");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -70,33 +91,37 @@ public class DataBuku extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Data Buku");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButton7.setText("Data Buku");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButton7ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(76, 76, 76)
                 .addComponent(jLabel1)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(34, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(37, 37, 37))))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -106,9 +131,30 @@ public class DataBuku extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButton7)
+                .addContainerGap(142, Short.MAX_VALUE))
         );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 227, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 6, Short.MAX_VALUE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 431, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/My_Images/book.png"))); // NOI18N
 
@@ -117,149 +163,154 @@ public class DataBuku extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 153, 153));
         jLabel4.setText("Data Buku");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(320, 320, 320)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addContainerGap(474, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel4)))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tablebuku.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nama Buku", "ID Buku", "Penulis", "Kesediaan"
+                "No", "Judul Buku", "ID Buku", "Penulis", "Ketersediaan"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablebuku);
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 491, 431));
+        jPanel3.add(judulbuku, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 46, 240, -1));
+
+        jLabel5.setText("Judul Buku");
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 12, -1, -1));
+
+        jLabel6.setText("ID Buku");
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 86, -1, -1));
+        jPanel3.add(idbuku, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 120, 240, -1));
+
+        jLabel7.setText("Penulis");
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 160, -1, -1));
+        jPanel3.add(penulis, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 194, 240, -1));
+
+        edit.setText("Edit");
+        edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                editActionPerformed(evt);
             }
         });
+        jPanel3.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, -1, -1));
 
-        jButton3.setText("Find");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setText("Delete");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
+        jPanel3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 240, -1, -1));
 
-        jButton6.setText("Edit");
+        jButton6.setText("Add");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
+        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 240, -1, -1));
 
-        jLabel5.setText("Judul Buku");
-
-        jLabel6.setText("ID Buku");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(166, 166, 166)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6))
-                                .addGap(0, 16, Short.MAX_VALUE)))
-                        .addContainerGap())))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel4)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3)
-                            .addComponent(jButton6))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-           DataMember DataMemberFrame = new DataMember();
-        DataMemberFrame.setVisible(true);
-        DataMemberFrame.setLocationRelativeTo(null);
+        DataAnggota DataAnggotaFrame = new DataAnggota();
+        DataAnggotaFrame.setVisible(true);
+        DataAnggotaFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       DataNonAnggota DataNonAnggotaFrame = new DataNonAnggota();
+        DataNonAnggota DataNonAnggotaFrame = new DataNonAnggota();
         DataNonAnggotaFrame.setVisible(true);
         DataNonAnggotaFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
+        // TODO add your handling code here:
+         edit.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        editData();
+    }
+});  
+    }//GEN-LAST:event_editActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    String idToDelete = judulbuku.getText();
+    deleteData(idToDelete);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+String judul = judulbuku.getText();
+String id = idbuku.getText();
+String Penulis = penulis.getText();
+
+
+try {
+    Connection k = connect.getConnection();
+    String q = "INSERT INTO databuku (JudulBuku, IDBuku, Penulis, Ketersediaan) VALUES (?, ?,?, 'Tersedia')";
+    try (PreparedStatement ps = k.prepareStatement(q)) {
+        ps.setString(1, judul);
+        ps.setString(2, id);
+        ps.setString(3, Penulis);
+        ps.executeUpdate();
+        updateDB(id);
+        JOptionPane.showMessageDialog(null,"Berhasil menambahkan data buku", "Data Masuk", 1);
+    }
+
+    refreshtable();
+} catch (SQLException e) {
+    System.err.println("Error: " + e.getMessage());
+}
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
         DataBuku DataBukuFrame = new DataBuku();
         DataBukuFrame.setVisible(true);
         DataBukuFrame.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,9 +338,6 @@ public class DataBuku extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DataBuku.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -300,22 +348,174 @@ public class DataBuku extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton edit;
+    private javax.swing.JTextField idbuku;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField judulbuku;
+    private javax.swing.JTextField penulis;
+    private javax.swing.JTable tablebuku;
     // End of variables declaration//GEN-END:variables
+public void refreshtable() {
+        try {
+            DefaultTableModel m = (DefaultTableModel) tablebuku.getModel();
+
+            String q = "SELECT * FROM databuku";
+            Connection k = connect.getConnection();
+            Statement s = k.createStatement();
+            ResultSet r = s.executeQuery(q);
+            m.getDataVector().removeAllElements();
+            //int no = 1;
+            while (r.next()) {
+                int no = r.getInt("no");
+                String nama = r.getString("JudulBuku");
+                String id = r.getString("IDBuku");
+                String penulis = r.getString("Penulis");
+                String ketersediaan = r.getString("Ketersediaan");
+                Object[] data = {no, nama, id, penulis,ketersediaan};
+                m.addRow(data);
+                //no++;                
+            }
+
+        } catch (Exception e) {
+        }
+
+}
+private void editData() {
+    String judul = judulbuku.getText();
+    String id = idbuku.getText();
+    String Penulis = penulis.getText();
+
+    StringBuilder queryBuilder = new StringBuilder("SELECT * FROM databuku WHERE ");
+    List<String> conditions = new ArrayList<>();
+
+    if (!judul.isEmpty()) {
+        conditions.add("JudulBuku LIKE '%" + judul + "%'");
+    }
+
+    if (!id.isEmpty()) {
+        conditions.add("IDBuku LIKE '%" + id + "%'");
+    }
+
+    if (!Penulis.isEmpty()) {
+        conditions.add("Penulis LIKE '%" + Penulis + "%'");
+    return;
+    }
+         
+    
+
+    String conditionString = String.join(" AND ", conditions);
+    String query = queryBuilder.append(conditionString).toString();
+
+    try (Connection k = connect.getConnection();
+         Statement s = k.createStatement();
+         ResultSet R = s.executeQuery(query)) {
+
+        if (R.next()) {
+            String currentJudul = R.getString("JudulBuku");
+            String currentId = R.getString("IDBuku");
+            String currentPenulis = R.getString("Penulis");
+            showEditDialog(currentJudul, currentId, currentPenulis);
+        } else {
+            JOptionPane.showMessageDialog(null, "Data tidak ditemukan", "Data Tidak Ditemukan", JOptionPane.WARNING_MESSAGE);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
+private void showEditDialog(String currentJudul, String currentId, String currentPenulis) {
+    JTextField judulField = new JTextField(currentJudul);
+    JTextField idField = new JTextField(currentId);
+    JTextField penulisField = new JTextField(currentPenulis);
+
+    Object[] message = {
+            "Judul Buku:",
+            judulField,
+            "ID Buku:",
+            idField,
+            "Penulis:",
+            penulisField
+    };
+
+    int option = JOptionPane.showConfirmDialog(null, message, "Edit Data", JOptionPane.OK_CANCEL_OPTION);
+    if (option == JOptionPane.OK_OPTION) {
+        String editedJudul = judulField.getText();
+        String editedId = idField.getText();
+        String editedPenulis = penulisField.getText();
+
+        updateData(editedJudul, editedId, editedPenulis);
+    }
+}
+
+private void updateData(String editedJudul, String editedId, String editedPenulis) {
+    try {
+        Connection k = connect.getConnection();
+        String q = "UPDATE databuku SET JudulBuku = ?, Penulis = ? WHERE IDBuku = ?";
+        try (PreparedStatement ps = k.prepareStatement(q)) {
+            ps.setString(1, editedJudul);
+            ps.setString(2, editedPenulis);
+            ps.setString(3, editedId);
+            ps.executeUpdate();
+        }
+
+        refreshtable();
+        JOptionPane.showMessageDialog(null, "Data berhasil diubah", "Edit Berhasil", JOptionPane.INFORMATION_MESSAGE);
+
+    } catch (SQLException e) {
+        System.err.println("Error: " + e.getMessage());
+    }
+}
+
+
+private void deleteData(String id) {
+    try {
+        Connection k = connect.getConnection();
+        String q = "DELETE FROM databuku WHERE IDBuku = ?";
+        try (PreparedStatement ps = k.prepareStatement(q)) {
+            ps.setString(1, id);
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Data deleted successfully
+                refreshtable();
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus", "Hapus Berhasil", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // No data found with the specified ID
+                JOptionPane.showMessageDialog(null, "ID tidak ditemukan", "Data Tidak Ditemukan", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    } catch (SQLException e) {
+        System.err.println("Error: " + e.getMessage());
+    }
+}
+ private void updateDB(String id) {
+        try {
+            Connection c = connect.getConnection();
+            Statement s = c.createStatement();
+            String q = "UPDATE databuku "
+                    + "SET "
+                    + "Ketersediaan='Tersedia' "
+                    + "WHERE IDBuku="+id;
+            s.executeUpdate(q);
+        } catch (Exception e) {
+        }
+    }
 }
