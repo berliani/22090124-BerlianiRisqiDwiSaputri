@@ -30,6 +30,7 @@ public class AnggotaForm extends javax.swing.JFrame {
      */
     public AnggotaForm() {
         initComponents();
+        tfID.requestFocus();
     }
 
     /**
@@ -197,8 +198,10 @@ try {
         JOptionPane.showMessageDialog(null, "ID yang anda masukan tidak valid", "Data Tidak Ditemukan", JOptionPane.WARNING_MESSAGE);
     }
 
-    tfID.setText("");
-    tfID.requestFocus();
+    if(!"".equals(tfID.getText())){
+        tfID.setText("");
+        tfID.requestFocus();
+    }
     
 } catch (Exception e) {
     e.printStackTrace();

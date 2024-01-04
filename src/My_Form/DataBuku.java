@@ -17,7 +17,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -63,11 +65,11 @@ public class DataBuku extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         penulis = new javax.swing.JTextField();
         edit = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        search = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1020, 549));
 
         jPanel4.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -132,7 +134,7 @@ public class DataBuku extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addGap(18, 18, 18)
                 .addComponent(jButton7)
-                .addContainerGap(142, Short.MAX_VALUE))
+                .addContainerGap(128, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -147,7 +149,7 @@ public class DataBuku extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 431, Short.MAX_VALUE)
+            .addGap(0, 417, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -184,7 +186,7 @@ public class DataBuku extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(jLabel4)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
@@ -220,6 +222,11 @@ public class DataBuku extends javax.swing.JFrame {
         jPanel3.add(penulis, new org.netbeans.lib.awtextra.AbsoluteConstraints(509, 194, 240, -1));
 
         edit.setText("Edit");
+        edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editMouseClicked(evt);
+            }
+        });
         edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editActionPerformed(evt);
@@ -227,13 +234,18 @@ public class DataBuku extends javax.swing.JFrame {
         });
         jPanel3.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 240, -1, -1));
 
-        jButton5.setText("Delete");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+        delete.setText("Delete");
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteMouseClicked(evt);
             }
         });
-        jPanel3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 240, -1, -1));
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+        jPanel3.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 240, -1, -1));
 
         jButton6.setText("Add");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -243,9 +255,23 @@ public class DataBuku extends javax.swing.JFrame {
         });
         jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 240, -1, -1));
 
+        search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/My_Images/search.png"))); // NOI18N
+        search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchMouseClicked(evt);
+            }
+        });
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+        jPanel3.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 10, -1, -1));
+
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -263,20 +289,7 @@ public class DataBuku extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        // TODO add your handling code here:
-         edit.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        editData();
-    }
-});  
     }//GEN-LAST:event_editActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    String idToDelete = judulbuku.getText();
-    deleteData(idToDelete);
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 String judul = judulbuku.getText();
@@ -294,6 +307,10 @@ try {
         ps.executeUpdate();
         updateDB(id);
         JOptionPane.showMessageDialog(null,"Berhasil menambahkan data buku", "Data Masuk", 1);
+   // Clear text fields
+        judulbuku.setText("");
+        idbuku.setText("");
+        penulis.setText("");
     }
 
     refreshtable();
@@ -311,6 +328,32 @@ try {
         DataBukuFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+       deleteData();
+       JOptionPane.showMessageDialog(null, "Data berhasil dihapus", "Data Dihapus", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_deleteMouseClicked
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMouseClicked
+        // TODO add your handling code here:
+        editData();
+    }//GEN-LAST:event_editMouseClicked
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMouseClicked
+  String keyword = judulbuku.getText().trim();
+    String keyid = idbuku.getText().trim();
+    String keypenulis = penulis.getText().trim();
+    searchData(keyword, keyid, keypenulis);
+    // TODO add your handling code here:
+    }//GEN-LAST:event_searchMouseClicked
 
     /**
      * @param args the command line arguments
@@ -348,11 +391,11 @@ try {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton delete;
     private javax.swing.JButton edit;
     private javax.swing.JTextField idbuku;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
@@ -369,6 +412,7 @@ try {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField judulbuku;
     private javax.swing.JTextField penulis;
+    private javax.swing.JButton search;
     private javax.swing.JTable tablebuku;
     // End of variables declaration//GEN-END:variables
 public void refreshtable() {
@@ -397,49 +441,22 @@ public void refreshtable() {
 
 }
 private void editData() {
-    String judul = judulbuku.getText();
-    String id = idbuku.getText();
-    String Penulis = penulis.getText();
+    DefaultTableModel m = (DefaultTableModel) tablebuku.getModel();
+    int rowSelected = tablebuku.getSelectedRow();
 
-    StringBuilder queryBuilder = new StringBuilder("SELECT * FROM databuku WHERE ");
-    List<String> conditions = new ArrayList<>();
+    try {
+        
+        String currentJudul = String.valueOf(m.getValueAt(rowSelected, 1));
+        String currentId = String.valueOf(m.getValueAt(rowSelected, 2));
+        String currentPenulis = String.valueOf(m.getValueAt(rowSelected, 3));
 
-    if (!judul.isEmpty()) {
-        conditions.add("JudulBuku LIKE '%" + judul + "%'");
-    }
-
-    if (!id.isEmpty()) {
-        conditions.add("IDBuku LIKE '%" + id + "%'");
-    }
-
-    if (!Penulis.isEmpty()) {
-        conditions.add("Penulis LIKE '%" + Penulis + "%'");
-    return;
-    }
-         
-    
-
-    String conditionString = String.join(" AND ", conditions);
-    String query = queryBuilder.append(conditionString).toString();
-
-    try (Connection k = connect.getConnection();
-         Statement s = k.createStatement();
-         ResultSet R = s.executeQuery(query)) {
-
-        if (R.next()) {
-            String currentJudul = R.getString("JudulBuku");
-            String currentId = R.getString("IDBuku");
-            String currentPenulis = R.getString("Penulis");
-            showEditDialog(currentJudul, currentId, currentPenulis);
-        } else {
-            JOptionPane.showMessageDialog(null, "Data tidak ditemukan", "Data Tidak Ditemukan", JOptionPane.WARNING_MESSAGE);
-        }
+      
+        showEditDialog(currentJudul, currentId, currentPenulis);
 
     } catch (Exception e) {
-        e.printStackTrace();
+        System.err.println("Error: " + e.getMessage());
     }
 }
-
 
 private void showEditDialog(String currentJudul, String currentId, String currentPenulis) {
     JTextField judulField = new JTextField(currentJudul);
@@ -469,6 +486,7 @@ private void updateData(String editedJudul, String editedId, String editedPenuli
     try {
         Connection k = connect.getConnection();
         String q = "UPDATE databuku SET JudulBuku = ?, Penulis = ? WHERE IDBuku = ?";
+        
         try (PreparedStatement ps = k.prepareStatement(q)) {
             ps.setString(1, editedJudul);
             ps.setString(2, editedPenulis);
@@ -477,35 +495,27 @@ private void updateData(String editedJudul, String editedId, String editedPenuli
         }
 
         refreshtable();
-        JOptionPane.showMessageDialog(null, "Data berhasil diubah", "Edit Berhasil", JOptionPane.INFORMATION_MESSAGE);
-
     } catch (SQLException e) {
         System.err.println("Error: " + e.getMessage());
     }
 }
 
 
-private void deleteData(String id) {
+private void deleteData() {
+    DefaultTableModel m = (DefaultTableModel) tablebuku.getModel();
+    int rowSelected = tablebuku.getSelectedRow();
+    
     try {
-        Connection k = connect.getConnection();
-        String q = "DELETE FROM databuku WHERE IDBuku = ?";
-        try (PreparedStatement ps = k.prepareStatement(q)) {
-            ps.setString(1, id);
-            int rowsAffected = ps.executeUpdate();
-
-            if (rowsAffected > 0) {
-                // Data deleted successfully
-                refreshtable();
-                JOptionPane.showMessageDialog(null, "Data berhasil dihapus", "Hapus Berhasil", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                // No data found with the specified ID
-                JOptionPane.showMessageDialog(null, "ID tidak ditemukan", "Data Tidak Ditemukan", JOptionPane.WARNING_MESSAGE);
-            }
-        }
-    } catch (SQLException e) {
-        System.err.println("Error: " + e.getMessage());
+            Connection c = connect.getConnection();
+            Statement s = c.createStatement();
+            String q = "DELETE FROM databuku WHERE IDBuku = '" + 
+                    String.valueOf(m.getValueAt(rowSelected, 2)) + "'";
+            s.executeUpdate(q);
+            refreshtable();
+        } catch (Exception e) {
     }
 }
+
  private void updateDB(String id) {
         try {
             Connection c = connect.getConnection();
@@ -518,4 +528,21 @@ private void deleteData(String id) {
         } catch (Exception e) {
         }
     }
+ private void searchData(String keyword, String keyid, String keypenulis) {
+      DefaultTableModel model = (DefaultTableModel) tablebuku.getModel();
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+    tablebuku.setRowSorter(sorter);
+
+    List<RowFilter<DefaultTableModel, Object>> filters = new ArrayList<>();
+
+    // Add filters for each criterion
+    filters.add(RowFilter.regexFilter("(?i)" + keyword, 1));
+    filters.add(RowFilter.regexFilter("(?i)" + keyid, 2));
+    filters.add(RowFilter.regexFilter("(?i)" + keypenulis, 3));
+
+    RowFilter<DefaultTableModel, Object> rowFilter = RowFilter.andFilter(filters);
+    sorter.setRowFilter(rowFilter);
+}
+
+
 }

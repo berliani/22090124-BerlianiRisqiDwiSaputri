@@ -17,9 +17,13 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import jdk.jfr.Timestamp;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -68,6 +72,7 @@ public class DataAnggota extends javax.swing.JFrame{
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         delete = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -176,6 +181,11 @@ public class DataAnggota extends javax.swing.JFrame{
         });
 
         edit.setText("Edit");
+        edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editMouseClicked(evt);
+            }
+        });
         edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editActionPerformed(evt);
@@ -187,9 +197,26 @@ public class DataAnggota extends javax.swing.JFrame{
         jLabel6.setText("ID Anggota");
 
         delete.setText("Delete");
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteMouseClicked(evt);
+            }
+        });
         delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteActionPerformed(evt);
+            }
+        });
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/My_Images/search.png"))); // NOI18N
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -215,7 +242,6 @@ public class DataAnggota extends javax.swing.JFrame{
                             .addComponent(txtnama)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
                                     .addComponent(jLabel6)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(tambahlanggota, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,7 +249,11 @@ public class DataAnggota extends javax.swing.JFrame{
                                         .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(delete)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3)))
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
@@ -240,8 +270,10 @@ public class DataAnggota extends javax.swing.JFrame{
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jLabel5)
+                .addGap(73, 73, 73)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtnama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -304,6 +336,10 @@ try {
          ps.setTimestamp(3, new java.sql.Timestamp(utilDate.getTime()));
         ps.executeUpdate();
         JOptionPane.showMessageDialog(null,"Berhasil menambahkan data anggota", "Data Masuk", 1);
+    
+// Clear text fields
+        txtnama.setText("");
+        txtid.setText("");
     }
 
     refreshtable();
@@ -315,13 +351,7 @@ try {
     }//GEN-LAST:event_tambahlanggotaActionPerformed
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        // TODO add your handling code here:
-        edit.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        editData();
-    }
-});  
+ 
     }//GEN-LAST:event_editActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -329,9 +359,6 @@ try {
     }//GEN-LAST:event_formWindowOpened
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-    String idToDelete = txtid.getText();
-    deleteData(idToDelete);
-
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteActionPerformed
 
@@ -342,6 +369,27 @@ try {
         DataBukuFrame.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+     deleteData();
+       JOptionPane.showMessageDialog(null, "Data berhasil dihapus", "Data Dihapus", JOptionPane.INFORMATION_MESSAGE);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteMouseClicked
+
+    private void editMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editMouseClicked
+        // TODO add your handling code here:
+        editData();
+    }//GEN-LAST:event_editMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+String keynama = txtnama.getText().trim();
+    String keyid = txtid.getText().trim();
+    searchData(keynama, keyid);        
+    }//GEN-LAST:event_jButton3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -384,6 +432,7 @@ try {
     private javax.swing.JButton edit;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -424,28 +473,24 @@ public void refreshtable() {
 
 }
 
-    private void editData() {
-    String id = txtid.getText();
+private void editData() {
+    DefaultTableModel m = (DefaultTableModel) tableanggota.getModel();
+    int rowSelected = tableanggota.getSelectedRow();
+
     try {
-        String q = "SELECT * FROM dataanggota WHERE IDAnggota=" + id;
-        Connection k = connect.getConnection();
-        Statement s = k.createStatement();
-        ResultSet R = s.executeQuery(q);
+        
+        String currentNama = String.valueOf(m.getValueAt(rowSelected, 1));
+        String currentId = String.valueOf(m.getValueAt(rowSelected, 2));
 
-        if (R.next()) {
-            String nama = R.getString("Nama");
-            showEditDialog(nama, id);
-        } else {
-            JOptionPane.showMessageDialog(null, "ID yang Anda masukkan tidak valid", "Data Tidak Ditemukan", JOptionPane.WARNING_MESSAGE);
-        }
-
-        txtid.setText("");    
+      
+        showEditDialog(currentNama, currentId);
 
     } catch (Exception e) {
-        e.printStackTrace();
+        System.err.println("Error: " + e.getMessage());
     }
 }
-   private void showEditDialog(String currentNama, String currentId) {
+
+private void showEditDialog(String currentNama, String currentId) {
     
     JTextField namaField = new JTextField(currentNama);
     JTextField idField = new JTextField(currentId);
@@ -467,7 +512,7 @@ public void refreshtable() {
         updateData(editedNama, editedId);
     }
 }
-    
+
 private void updateData(String editedNama, String editedId) {
     try {
         Connection k = connect.getConnection();
@@ -486,27 +531,39 @@ private void updateData(String editedNama, String editedId) {
     }
 }
 
-private void deleteData(String id) {
-    try {
-        Connection k = connect.getConnection();
-        String q = "DELETE FROM dataanggota WHERE IDAnggota = ?";
-        try (PreparedStatement ps = k.prepareStatement(q)) {
-            ps.setString(1, id);
-            int rowsAffected = ps.executeUpdate();
 
-            if (rowsAffected > 0) {
-                // Data deleted successfully
-                refreshtable();
-                JOptionPane.showMessageDialog(null, "Data berhasil dihapus", "Hapus Berhasil", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                // No data found with the specified ID
-                JOptionPane.showMessageDialog(null, "ID tidak ditemukan", "Data Tidak Ditemukan", JOptionPane.WARNING_MESSAGE);
-            }
+
+
+    private void deleteData() {
+    DefaultTableModel m = (DefaultTableModel) tableanggota.getModel();
+    int rowSelected = tableanggota.getSelectedRow();
+    
+    try {
+            Connection c = connect.getConnection();
+            Statement s = c.createStatement();
+            String q = "DELETE FROM dataanggota WHERE IDAnggota = '" + 
+                    String.valueOf(m.getValueAt(rowSelected, 2)) + "'";
+            s.executeUpdate(q);
+            refreshtable();
+        } catch (Exception e) {
         }
-    } catch (SQLException e) {
-        System.err.println("Error: " + e.getMessage());
     }
+    private void searchData(String nama, String id) {
+        
+      DefaultTableModel model = (DefaultTableModel) tableanggota.getModel();
+    TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+    tableanggota.setRowSorter(sorter);
+
+    List<RowFilter<DefaultTableModel, Object>> filters = new ArrayList<>();
+
+    // Add filters for each criterion
+    filters.add(RowFilter.regexFilter("(?i)" + nama, 1));
+    filters.add(RowFilter.regexFilter("(?i)" + id, 2));
+
+    RowFilter<DefaultTableModel, Object> rowFilter = RowFilter.andFilter(filters);
+    sorter.setRowFilter(rowFilter);
 }
+
 
 }
 
